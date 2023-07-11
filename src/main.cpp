@@ -1,60 +1,123 @@
 #include <Arduino.h>
 
-#define FRIN1 PB13
-#define FRIN2 PB12
-#define FRPWM PB1
+#include "../lib/defines.h"
 
-#define FSIN1 PB15
-#define FSIN2 PB14
-#define FSPWM PB0
+double tempo = 0;
 
-#define FTIN1 PA9
-#define FTIN2 PA8
-#define FTPWM PA7
+uint16 getTensao(uint8 pin) {
+    uint16 tensao = 0;
+    tensao = (analogRead(pin) * 0.00080567) / 0.1;
+    return tensao;   
+}
+void etapa1() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 1");
+    digitalWrite(FRIN1, HIGH);
+    digitalWrite(FRIN2, LOW);
 
-double formaTriangular(int angulo) {
-    double valor = 0;
+    digitalWrite(FSIN1, LOW);
+    digitalWrite(FSIN2, HIGH);
+
+    digitalWrite(FTIN1, HIGH);
+    digitalWrite(FTIN2, LOW);
+    while (millis() - tempo < 10);
     
-    return valor;
+    
+}
+
+void etapa2() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 2");
+    digitalWrite(FRIN1, HIGH);
+    digitalWrite(FRIN2, LOW);
+
+    digitalWrite(FSIN1, LOW);
+    digitalWrite(FSIN2, HIGH);
+
+    digitalWrite(FTIN1, LOW);
+    digitalWrite(FTIN2, HIGH);
+    while (millis() - tempo < 10);
+}
+
+void etapa3() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 3");
+    digitalWrite(FRIN1, HIGH);
+    digitalWrite(FRIN2, LOW);
+
+    digitalWrite(FSIN1, HIGH);
+    digitalWrite(FSIN2, LOW);
+
+    digitalWrite(FTIN1, LOW);
+    digitalWrite(FTIN2, HIGH);
+    while (millis() - tempo < 10);
+}
+
+void etapa4() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 4");
+    digitalWrite(FRIN1, LOW);
+    digitalWrite(FRIN2, HIGH);
+
+    digitalWrite(FSIN1, HIGH);
+    digitalWrite(FSIN2, LOW);
+
+    digitalWrite(FTIN1, HIGH);
+    digitalWrite(FTIN2, LOW);
+    while (millis() - tempo < 10);
+}
+
+void etapa5() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 5");
+    digitalWrite(FRIN1, LOW);
+    digitalWrite(FRIN2, HIGH);
+
+    digitalWrite(FSIN1, HIGH);
+    digitalWrite(FSIN2, LOW);
+
+    digitalWrite(FTIN1, HIGH);
+    digitalWrite(FTIN2, LOW);
+    while (millis() - tempo < 10);
+}
+
+void etapa6() {
+    Serial.println("---------------------------------");
+    Serial.println("Passo 6");
+    digitalWrite(FRIN1, LOW);
+    digitalWrite(FRIN2, HIGH);
+
+    digitalWrite(FSIN1, LOW);
+    digitalWrite(FSIN2, HIGH);
+
+    digitalWrite(FTIN1, HIGH);
+    digitalWrite(FTIN2, LOW);
+    while (millis() - tempo < 10);
 }
 
 void setup() {
-    pinMode(FRIN1, OUTPUT);
+    pinMode(FRIN1, PWM);
     pinMode(FRIN2, OUTPUT);
-    pinMode(FRPWM, OUTPUT);
+    pinMode(FRCRR, INPUT);
 
-    pinMode(FSIN1, OUTPUT);
+    pinMode(FSIN1, PWM);
     pinMode(FSIN2, OUTPUT);
-    pinMode(FSPWM, OUTPUT);
+    pinMode(FSCRR, INPUT);
 
-    pinMode(FTIN1, OUTPUT);
+    pinMode(FTIN1, PWM);
     pinMode(FTIN2, OUTPUT);
-    pinMode(FTPWM, OUTPUT);
+    pinMode(FTCRR, INPUT);
     Serial.begin(9600);
 }
 
 void loop() {
-    for(int i = 0; i< 360; i++) {
-        if(sin(i) < formaTriangular(i)) {
-            digitalWrite(FRIN1, HIGH);
-            digitalWrite(FRIN2, LOW);
-        } else {
-            digitalWrite(FRIN1, LOW);
-            digitalWrite(FRIN2, HIGH);
-        }
-        if(sin(i+120) < formaTriangular(i+120)) {
-            digitalWrite(FSIN1, HIGH);
-            digitalWrite(FSIN2, LOW);
-        } else {
-            digitalWrite(FSIN1, LOW);
-            digitalWrite(FSIN2, HIGH);
-        }
-        if(sin(i-120) < formaTriangular(i-120)) {
-            digitalWrite(FTIN1, HIGH);
-            digitalWrite(FTIN2, LOW);
-        } else {
-            digitalWrite(FTIN1, LOW);
-            digitalWrite(FTIN2, HIGH);
-        }
-    }
+
+    etapa1();
+    etapa2();
+    etapa3();
+    etapa4();
+    etapa5();
+    etapa6();
+
 }
+
